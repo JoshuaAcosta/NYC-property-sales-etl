@@ -17,7 +17,6 @@ def get_sales_links(url):
     column headers begin after 2010.
     """
     try:
-        print("Getting list of urls...")
         base = "https://www1.nyc.gov"
         website_text = requests.get(url).text
         soup = BeautifulSoup(website_text, "html5lib")
@@ -43,7 +42,6 @@ def check_for_data_dir():
     """
 
     if not os.path.isdir("../data/"):
-        print("Creating a data directory...")
         os.mkdir("../data/")
 
 
@@ -84,21 +82,13 @@ def concat_dfs():
                       "finance/taxes/property-annualized-sales-update.page")
 
     sales_2011_onward, sales_2003_2010 = get_sales_links(sales_data_url)
-
-    print("Creating dataframes for years 2011 and onward...")
     archived_2011_onward_df = read_excel_data(sales_2011_onward, 4)
-    print("Creating dataframes for years 2003 through 2010..")
     archived_2003_2010_df = read_excel_data(sales_2003_2010, 3)
-
-    print("Concatenating all dataframes...")
 
     combined_df = pd.concat([archived_2011_onward_df, archived_2003_2010_df],
                             ignore_index=True, sort=False)
 
     check_for_data_dir()
-
-    print("Saving csv file into /data")
-
     combined_df.to_csv("../data/NYC_sales_data.csv")
 
 
