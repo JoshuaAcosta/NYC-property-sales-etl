@@ -12,6 +12,8 @@ python-dotenv = "~=0.19.1"
 xlrd = "==2.0.1"
 openpyxl = "==3.0.9"
 numpy = "*"
+html5lib = "*"
+streamlit = "~=1.18.1"
 
 [dev-packages]
 

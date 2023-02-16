@@ -106,8 +106,5 @@ venv.bak/
 #vs code
 .vscode
 
-#jupyter notebooks
-*.ipynb
-
 #data dir containing csv files
 /data/*
