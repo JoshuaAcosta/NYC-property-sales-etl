@@ -17,6 +17,7 @@ streamlit = "~=1.18.1"
 matplotlib = "*"
 altair = "~=4.2"
 importlib-metadata = "*"
+typing-extensions = "*"
 
 [dev-packages]
 
