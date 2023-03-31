@@ -16,6 +16,7 @@ html5lib = "*"
 streamlit = "~=1.18.1"
 matplotlib = "*"
 altair = "~=4.2"
+importlib-metadata = "*"
 
 [dev-packages]
 
