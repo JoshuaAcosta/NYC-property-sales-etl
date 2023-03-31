@@ -107,5 +107,4 @@ venv.bak/
 .vscode
 
 #data dir containing csv files
-/data/*
 'notebooks/Analyzing NYC Property Sales from 2003 to 2022.ipynb'
