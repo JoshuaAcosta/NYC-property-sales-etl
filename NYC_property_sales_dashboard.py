@@ -15,8 +15,6 @@ raw_path = data_path.joinpath("raw")
 #stage_path = data_path.joinpath("stage")
 production_path = data_path.joinpath("production")
 
-../data
-
 @st.cache_data
 def read_sales_data(csv_path):
     all_files = glob.glob(str(production_path) + "/*.csv")
