@@ -108,3 +108,6 @@ venv.bak/
 
 #data dir containing csv files
 'notebooks/Analyzing NYC Property Sales from 2003 to 2022.ipynb'
+
+#data
+data/stage
