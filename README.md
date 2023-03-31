@@ -9,6 +9,8 @@ With a growing family and a need for space, our family decided to analyze data a
 
 A Jupyter notebook reading and cleaning the Excel data can be found [here](/notebooks/Read_and_Clean_NYC_Property_Sales_Data_from_2003_to_2022.ipynb).
 
+A live verion of the dashboard hosted by Streamlit Cloud can be found [here](https://joshuaacosta-nyc-property-s-nyc-property-sales-dashboard-ziavau.streamlit.app/).
+
 <br>
 
 ## Tools and Technologies
