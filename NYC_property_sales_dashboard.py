@@ -9,11 +9,7 @@ st.set_page_config(page_title='NYC Property Sales Dashboard', page_icon=':bar_ch
 st.title("NYC Property Sales between 2003 and 2022")
 
 #Reading data from csv file
-#parent_dir = Path(os.getenv("PARENT_DIR"))
-data_path = Path("https://github.com/JoshuaAcosta/NYC-property-sales-etl/tree/master/data")
-raw_path = data_path.joinpath("raw")
-#stage_path = data_path.joinpath("stage")
-production_path = data_path.joinpath("production")
+production_path = "./data/production"
 
 @st.cache_data
 def read_sales_data(csv_path):
