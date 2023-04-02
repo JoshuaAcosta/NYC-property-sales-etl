@@ -1,19 +1,28 @@
-import os
 import glob
-from pathlib import Path
-import streamlit as st
-import pandas as pd
 import altair as alt
+import pandas as pd
+import streamlit as st
 
+# Configure Streamlit page
 st.set_page_config(page_title='NYC Property Sales Dashboard', page_icon=':bar_chart:', layout='wide')
 st.title("NYC Property Sales between 2003 and 2022")
 
-#Reading data from csv file
+# Define path to the directory containing CSV data files
 production_path = "./data/production"
 
+# Define a function to read in the CSV data files
 @st.cache_data
 def read_sales_data(csv_path):
-    all_files = glob.glob(str(production_path) + "/*.csv")
+    """
+    Reads sales data from multiple CSV files and returns a concatenated DataFrame with additional columns.
+
+    Args:
+        csv_path (str or pathlib.Path): Path to directory containing CSV files.
+
+    Returns:
+        pandas.DataFrame: DataFrame containing the concatenated data from all CSV files
+    """
+    all_files = glob.glob(str(csv_path) + "/*.csv")
     df_list = [pd.read_csv(csv_file, header=0) for csv_file in all_files]
     df = pd.concat(df_list, ignore_index=True)
     df['sale_date'] = pd.to_datetime(df['sale_date'])
@@ -21,13 +30,14 @@ def read_sales_data(csv_path):
     df['year'] = df['sale_date'].dt.strftime('%Y')
     return df
 
+# Call the function to read in the CSV data files
 df = read_sales_data(production_path)
 
-#neighborhood selection box
+# Create a neighborhood selection box in the sidebar
 neighborhoods_list = sorted(df.neighborhood.unique()) 
 neighborhood_selection = st.sidebar.selectbox(label="Select a neighborhood:", options=neighborhoods_list, index=3)
 
-#building class check box
+# Create a building class checkbox in the sidebar
 BUILDING_CLASS = ['01 ONE FAMILY HOMES',
                        '02 TWO FAMILY HOMES',
                        '03 THREE FAMILY HOMES',
@@ -43,9 +53,17 @@ BUILDING_CLASS = ['01 ONE FAMILY HOMES',
 
 building_class_selection = st.sidebar.multiselect(label="Select one of more building class:", options=BUILDING_CLASS, default='01 ONE FAMILY HOMES')
 
-#sort data for options selected
-filtered_sales_df = df[df["neighborhood"] == neighborhood_selection]
-filtered_sales_df = filtered_sales_df[filtered_sales_df["building_class_category"].isin(building_class_selection )]
+# date slider slection between the range of years available
+min_year = int(df.year.min())
+max_year = int(df.year.max())
+date_selection = st.sidebar.slider("Select date range: ", min_year, max_year, [min_year, max_year])
+
+# data sorted by neighborhoo, building class and year range selections
+filtered_neighborhood_df = df[df["neighborhood"] == neighborhood_selection]
+filtered_class_df = filtered_neighborhood_df[filtered_neighborhood_df["building_class_category"].isin(building_class_selection)]
+
+range_of_years_seleced = map(str, range(date_selection[0], date_selection[1]+1, 1))
+filtered_sales_df = filtered_class_df[filtered_class_df["year"].isin(range_of_years_seleced)]
 
 with st.container():
     col1, col2 = st.columns(2)
