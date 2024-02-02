@@ -1,5 +1,7 @@
+import os
 import geopy
 from geopy.geocoders import Nominatim
+import geopandas as gpd
 import ssl
 import certifi
 ctx = ssl.create_default_context(cafile=certifi.where())
@@ -17,3 +19,7 @@ def geocode_address(address):
 address = "1211 6th Avenue, New York, NY"
 coordinates = geocode_address(address)
 print("Coordinates:", coordinates)
+
+shapefile_path = os.getenv("SHAPEFILE")
+neighborhoods_shape = gpd.read_file(shapefile_path)
+
