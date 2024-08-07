@@ -110,6 +110,6 @@ venv.bak/
 'notebooks/Analyzing NYC Property Sales from 2003 to 2022.ipynb'
 
 #data
-data/stage
+data/
 
 .DS_Store
