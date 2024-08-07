@@ -1,6 +1,6 @@
 # NYC-property-sales-etl
 
-![dashboard_image](img/sales_dashboard(1000x500).png)
+![dashboard_image](img/NY_Skyline.jpg)
 
 <br>
 
