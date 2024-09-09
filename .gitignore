@@ -111,5 +111,6 @@ venv.bak/
 
 #data
 data/
+notebooks/
 
 .DS_Store

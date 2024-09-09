@@ -9,7 +9,7 @@ ipykernel = "~=6.4.1"
 beautifulsoup4 = "~=4.10.0"
 python-dotenv = "~=0.19.1"
 xlrd = "==2.0.1"
-openpyxl = "==3.0.9"
+openpyxl = "==3.1.5"
 numpy = "*"
 html5lib = "*"
 streamlit = "~=1.30"
@@ -21,6 +21,7 @@ requests = "==2.32.3"
 geopandas = "~=0.14.2"
 shapely = "~=2.0.2"
 geopy = "~=2.4"
+python-calamine = "==0.2.3"
 
 [dev-packages]
 
