@@ -161,6 +161,24 @@ def transform_data(dir):
     
     df.drop(df.loc[df['neighborhood'] == 'Unnamed: 1'].index, inplace=True)
 
+    #Split apartment number contained inside the address column
+    #and update the apartment_number column.
+
+    #Slice original dataframe to a another dataframe if the address
+    #value for a row contains a comma. Splits address value into two
+    #values if initial cell contained the column: one containing the
+    #roperty address and another containing apartment number.
+    #Apartment value then added to apartment_number column for row.
+    
+    df2 = df[df['address'].str.contains(",",na=False)]
+    for index_label, row_series in df2.iterrows():
+        new_address, apt_num = row_series['address'].split(',', 1)
+        df2.at[index_label, 'address'] = new_address
+        df2.at[index_label, 'apartment_number'] = apt_num
+    df.update(df2)
+
+    #removes all commas from cells in the apartment_number column
+    df["apartment_number"] = df["apartment_number"].str.replace(',', '')
 
     prod_path = check_for_directory("prod")
     cleaned_file = 'cleaned_csv_sales.csv'
