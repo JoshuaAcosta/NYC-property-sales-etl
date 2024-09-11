@@ -64,15 +64,15 @@ def extract(url):
 
 def locate_header_row(file_path):
     
-    df = pd.read_csv(file_path, header=None,low_memory=False)
+    df = pd.read_excel(file_path, header=None)
        
     # Check each row to find where the header starts
     for i, row in df.iterrows():
-        if row.iloc[0] == "BOROUGH":
+        if "BOROUGH" in row.iloc[0].strip():
             # Set this row as the header and drop rows above it
-            df.columns = df.iloc[i]
-            df = df[i + 1:].reset_index(drop=True)
-            return i + 1  # Return cleaned DataFrame and 1-based header row index
+            #df.columns = df.iloc[i]
+            #df = df[i + 1:].reset_index(drop=True)
+            return i  # Return cleaned DataFrame and 1-based header row index
     
     return None  # Return None if no matching row is found
 
@@ -98,9 +98,7 @@ def read_csv_data(list_of_filenames):
     for each_link in  list_of_filenames:
         stage_path = check_for_directory("stage")
         filepath = stage_path.joinpath(each_link)
-        header_row = locate_header_row(filepath)
-        list_of_dfs.append(pd.read_csv(filepath, header=header_row, 
-                                         dtype=str, names=use_col_names))
+        list_of_dfs.append(pd.read_csv(filepath, header=0, dtype=str, names=use_col_names))
 
     dataframe = pd.concat(list_of_dfs, ignore_index=True, sort=False)
 
@@ -126,7 +124,9 @@ def excel_to_csv(excel_file_list):
             continue
         
         # Read the Excel file
-        df = pd.read_excel(filepath, engine=engine)
+        header_row = locate_header_row(filepath)
+        print(f'filename: {each_link}, engine: {engine} and header row {header_row}')
+        df = pd.read_excel(filepath, engine=engine, header=header_row)
         
         # Save the DataFrame as a CSV file
         csv_filename = stage_path.joinpath(filepath.stem + '.csv')
@@ -142,8 +142,8 @@ def transform_data(dir):
 
     df = read_csv_data(os.listdir(staged_csv))
     df.drop_duplicates()
+    df.dropna(how='all', inplace=True)
 
-    
     #Updates columns names by stripping white spaces, makes all characters
     #lower case and replacing and spaces with an underscore.
     df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
@@ -155,11 +155,8 @@ def transform_data(dir):
     neighbohood_val = {'3004':'GRAVESEND',
                        '3019':'PROSPECT HEIGHTS',
                        '1026':'MIDTOWN EAST',
-                       '1021':'SoHo'}
+                       '1021':'SOHO'}
     df["neighborhood"].replace(neighbohood_val, inplace=True)
-  
-    
-    df.drop(df.loc[df['neighborhood'] == 'Unnamed: 1'].index, inplace=True)
 
     #Split apartment number contained inside the address column
     #and update the apartment_number column.
