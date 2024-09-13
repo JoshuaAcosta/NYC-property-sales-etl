@@ -158,6 +158,16 @@ def transform_data(dir):
                        '1021':'SOHO'}
     df["neighborhood"].replace(neighbohood_val, inplace=True)
 
+    #update year built of property address for accuracy
+    df.loc[df.address == "762 MARCY AVENUE, 1B", 'year_built'] = 2017.0
+    df.loc[df.address == "762 MARCY AVENUE, 4", 'year_built'] = 2017.0
+    df.loc[df.address == "9 BARTLETT AVENUE, 0", 'year_built'] = 2019.0
+
+
+    #Update zip code on property for accuracy 
+    df.loc[df.address == "762 MARCY AVENUE, 1B", 'zip_code'] = 11216.0
+    df.loc[df.address == "762 MARCY AVENUE, 4", 'zip_code'] = 11216.0
+
     #Split apartment number contained inside the address column
     #and update the apartment_number column.
 
