@@ -168,6 +168,20 @@ def transform_data(dir):
     df.loc[df.address == "762 MARCY AVENUE, 1B", 'zip_code'] = 11216.0
     df.loc[df.address == "762 MARCY AVENUE, 4", 'zip_code'] = 11216.0
 
+    df["borough"] = df["borough"].astype("int8")
+    df["zip_code"] = df["zip_code"].astype("str")
+    df["block"] = df["block"].astype("int16")
+    df["lot"] = df["lot"].astype("int16")
+    df["residential_units"] = df["residential_units"].astype("int16")
+    df["commercial_units"] = df["commercial_units"].astype("int16")
+    df["total_units"] = df["total_units"].astype("int16")
+    df["land_square_feet"] = df["land_square_feet"].astype("int64")
+    df["gross_square_feet"] = df["gross_square_feet"].astype("int64")
+    df["year_built"] = df["year_built"].astype("int16")
+    df["tax_class_at_time_of_sale"] = df["tax_class_at_time_of_sale"].astype("int8")
+    df["sale_price"] = df["sale_price"].astype("float64")
+    df["sale_date"] = df["sale_date"].astype("datetime64[ns]")
+
     #Split apartment number contained inside the address column
     #and update the apartment_number column.
 
