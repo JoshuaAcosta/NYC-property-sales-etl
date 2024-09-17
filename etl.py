@@ -182,6 +182,29 @@ def transform_data(dir):
     df["sale_price"] = df["sale_price"].astype("float64")
     df["sale_date"] = df["sale_date"].astype("datetime64[ns]")
 
+    """ 
+    #Replaces double spaces with one space in strings and 
+    #combines multiple names for the same category.
+    """
+    before_category_num = df.building_class_category.nunique()
+
+    df["building_class_category"] = df["building_class_category"].apply(str.rstrip)
+
+    df["building_class_category"] = df["building_class_category"].str.replace('  ',' ')
+
+    replacement_values = {'01 ONE FAMILY DWELLINGS': '01 ONE FAMILY HOMES',
+                    '02 TWO FAMILY DWELLINGS': '02 TWO FAMILY HOMES',
+                    '03 THREE FAMILY DWELLINGS': '03 THREE FAMILY HOMES',
+                    '17 CONDOPS': '17 CONDO COOPS',
+                    '18 TAX CLASS 3 - UNTILITY PROPERTIES': '18 TAX CLASS 3 - UTILITY PROPERTIES'}
+
+    df["building_class_category"] = df["building_class_category"].replace(replacement_values)
+
+    after_category_num = df.building_class_category.nunique()
+
+    print(f"Number of unique building categories before stripping: {before_category_num} ")
+    print(f"Number of unique building categories after stripping: {after_category_num} ")
+
     #Split apartment number contained inside the address column
     #and update the apartment_number column.
 
