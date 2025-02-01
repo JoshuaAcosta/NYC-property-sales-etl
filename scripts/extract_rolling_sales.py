@@ -5,7 +5,7 @@ from pathlib import Path, PurePath
 import requests
 from bs4 import BeautifulSoup
 
-def extract_rolling_sales_links(url):
+def extract_rolling_sales_links(url:str) -> list[str]:
     """
     Extracts links to excel spreadsheets containing propery sales 
     in 2024 for each borough. 
@@ -30,7 +30,7 @@ def extract_rolling_sales_links(url):
 
     return links
 
-def check_for_directory(dirname):
+def check_for_directory(dirname:str) -> Path:
     """
     Check the data directory for the existance 
     of a specific directory and creates
@@ -42,10 +42,11 @@ def check_for_directory(dirname):
     if not Path.is_dir(target_dir):
         Path.mkdir(target_dir)
     
+    print(type(target_dir ))
     return target_dir
 
 
-def download_files(url_links, raw_path):
+def download_files(url_links:list[str], raw_path:Path) -> None:
     """
     Downloads Excel spreadsheets from table on NYC Dept. 
     of Finance website and stores them in data directory.
@@ -61,14 +62,11 @@ def download_files(url_links, raw_path):
             logger.error(f"Failed to fetch URL {each_link}: {str(exception)}")
             raise exception
 
-
         if response.status_code == 200:
             filename = PurePath(each_link).name
             filepath = raw_path.joinpath(filename)
             with open(filepath, mode='wb') as f:
                 f.write(response.content)
-
-    return raw_path
 
 
 if __name__ == "__main__":
