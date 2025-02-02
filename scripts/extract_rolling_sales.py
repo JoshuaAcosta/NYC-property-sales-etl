@@ -5,6 +5,15 @@ from pathlib import Path, PurePath
 import requests
 from bs4 import BeautifulSoup
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("app.log"),
+        logging.StreamHandler() 
+    ]
+)
+
 def extract_rolling_sales_links(url:str) -> list[str]:
     """
     Extracts links to excel spreadsheets containing propery sales 
@@ -42,7 +51,6 @@ def check_for_directory(dirname:str) -> Path:
     if not Path.is_dir(target_dir):
         Path.mkdir(target_dir)
     
-    print(type(target_dir ))
     return target_dir
 
 
@@ -72,6 +80,6 @@ def download_files(url_links:list[str], raw_path:Path) -> None:
 if __name__ == "__main__":
 
     rolling_sales_url = os.getenv("ROLLING_SALES_URL")
-    excel_links = extract_rolling_sales_links(rolling_sales_url )
+    excel_links = extract_rolling_sales_links(rolling_sales_url)
     raw_path = check_for_directory("raw/rolling_sales")
     download_files(excel_links, raw_path)
